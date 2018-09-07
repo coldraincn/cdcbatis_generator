@@ -40,10 +40,11 @@ program.command('list')
         let data = await connection.query('show table status;')
           //获取表中字段
          let cloumns = await connection.query(`show columns from ${data[0][0].Name};`)
+         //创建provider
+        createProvider('./mapper/provider/','com.juluancj.jlcj','jl',cloumns[0],data[0][0].Name)
          //创建po
         createPo('./entity/po/','com.juluancj.jlcj','jl',cloumns[0],data[0][0].Name)
-        //创建provider
-        createProvider('./mapper/provider/','com.juluancj.jlcj','jl',cloumns[0],data[0][0].Name)
+        
        // console.log(data2[0])
     })
 

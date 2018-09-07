@@ -1,5 +1,7 @@
 package com.juluancj.jlcj.entity.po;
+
 import java.io.Serializable;
+
 public class ActionLog implements Serializable{
     private static final long serialVersionUID = 1L;
     private Integer id;

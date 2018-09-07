@@ -16,8 +16,9 @@ function createProvider(pathName,bundleName, prefix, cloumns, tablename){
      let header =providerTemp.getHeader(bundleName,tablename,poName)
      let setBody=''
      //去除id
-     cloumns.shift()
-     for(let cloumn of cloumns){
+    
+     let newCloumns=linehump.curtail(cloumns)
+     for(let cloumn of newCloumns){
         let field = linehump.toHump(cloumn.Field);
         setBody+=providerTemp.getSetbody(cloumn.Field,poName,field)
      }

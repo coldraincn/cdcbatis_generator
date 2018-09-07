@@ -1,30 +1,32 @@
 package com.juluancj.jlcj.mapper.provider;
+
 import com.juluancj.jlcj.entity.po.ActionLog;
 import org.apache.ibatis.jdbc.SQL;
+
 public class ActionLogProvider {
     public String update(ActionLog ActionLog) {
         String sql= new SQL() {
             {
                 UPDATE("jl_action_log");
-               if (ActionLog.getUserId() != null) {
+                if (ActionLog.getUserId() != null) {
                     SET("user_id = #{userId}");
                 }
-               if (ActionLog.getIp() != null) {
+                if (ActionLog.getIp() != null) {
                     SET("ip = #{ip}");
                 }
-               if (ActionLog.getAction() != null) {
+                if (ActionLog.getAction() != null) {
                     SET("action = #{action}");
                 }
-               if (ActionLog.getTarget() != null) {
+                if (ActionLog.getTarget() != null) {
                     SET("target = #{target}");
                 }
-               if (ActionLog.getRemark() != null) {
+                if (ActionLog.getRemark() != null) {
                     SET("remark = #{remark}");
                 }
-               if (ActionLog.getStatus() != null) {
+                if (ActionLog.getStatus() != null) {
                     SET("status = #{status}");
                 }
-               if (ActionLog.getCreateTime() != null) {
+                if (ActionLog.getCreateTime() != null) {
                     SET("create_time = #{createTime}");
                 }
                 WHERE("id=#{id}");
