@@ -1,0 +1,23 @@
+{
+  "name": "cdcbatis-generator",
+  "version": "1.0.0",
+  "description": "mybatis generator for annotation",
+  "main": "index.js",
+  "bin": {
+    "cbg": "./bin/index.js"
+  },
+  "scripts": {
+    "start": "node ./bin/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mybatis",
+    "annotation"
+  ],
+  "author": "coldraincn",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.17.1",
+    "mysql2": "^1.6.1"
+  }
+}
