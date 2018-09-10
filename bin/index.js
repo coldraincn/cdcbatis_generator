@@ -10,18 +10,14 @@ const createService = require('./createService')
 const createServiceImpl = require('./createServiceImpl')
 const createController = require('./createController')
 const stringUtil = require('../lib/utils/stringUtil');
-//创建po文件夹
-var podir = mkdirsSync('./entity/po', 0777);
-console.log(podir);
-//mapper文件夹
-var mapperdir = mkdirsSync('./mapper/provider', 0777);
-console.log(mapperdir);
-var servicedir = mkdirsSync('./service/impl', 0777);
-console.log(servicedir);
-var controllerdir = mkdirsSync('./controller', 0777);
-console.log(controllerdir);
+
 //console.log("fdfdfdfdfdf:"+stringUtil.firstLowerCase('AaddddD'))
 let questions = [
+    {
+        type: 'input',
+        name: 'bundleName',
+        message: 'enter project bundleName?',
+    },
     {
         type: 'input',
         name: 'host',
@@ -47,22 +43,24 @@ let questions = [
         name: 'database',
         message: 'enter mysql database?',
     }
+    ,
+    {
+        type: 'input',
+        name: 'prefix',
+        message: 'enter mysql table prefix?',
+    }
 ]
-let bundleName = 'com.juluancj.jlcj'
-let prefix = 'jl'
+
 
 
 program
     .version('0.0.1')
     .option('-h, --host <host>', 'set mysql host')
-    .option('-p, --port <port>', 'set mysql port')
-    .option('-u, --user <user>', 'set mysql username')
-    .option('-w, --password <password>', 'set mysql password')
-    .option('-b, --database <database>', 'set mysql database');
+
 program.command('list')
     .description('list database')
     .action(async function () {
-        let answers=await inquirer.prompt(questions)
+        let answers = await inquirer.prompt(questions)
         console.log(answers)
         const connection = await mysql.createConnection({
             host: answers.host,
@@ -71,25 +69,63 @@ program.command('list')
             port: answers.port,
             database: answers.database,
         })
-      
-      
         //获取表
         let tables = await connection.query('show table status;')
+        let tableNames=tables[0].map(table=>table.Name);
+        let choicequestions = [{
+            type: 'checkbox',
+            name: 'tables',
+            message: 'choose tables which you want to generator?',
+            choices: tableNames,
+        }]
+        let tableanswers = await inquirer.prompt(choicequestions)
+        console.log(tableanswers)
+        let confirmquestion = [{
+            type: 'confirm',
+            name: 'generator',
+            message: 'do you want to generator?',
+        }]
+        let confirmanswers = await inquirer.prompt(confirmquestion)
+        console.log(confirmanswers)
+
+        // //创建po文件夹
+        // var podir = mkdirsSync(__dirname+'./entity/po', 0777);
+        // console.log('create ./entity/po' + podir);
+        // //mapper文件夹
+        // var mapperdir = mkdirsSync('./mapper/provider', 0777);
+        // console.log('create ./mapper/provider' + mapperdir);
+        // var servicedir = mkdirsSync('./service/impl', 0777);
+        // console.log('create ./service/impl' + servicedir);
+        // var controllerdir = mkdirsSync('./controller', 0777);
+        // console.log('create ./controller' + controllerdir);
+
+         //创建po文件夹
+         var podir = mkdirsSync(__dirname+'/entity/po', 0777);
+         console.log('create ./entity/po' + podir);
+         //mapper文件夹
+         var mapperdir = mkdirsSync(__dirname+'/mapper/provider', 0777);
+         console.log('create ./mapper/provider' + mapperdir);
+         var servicedir = mkdirsSync(__dirname+'/service/impl', 0777);
+         console.log('create ./service/impl' + servicedir);
+         var controllerdir = mkdirsSync(__dirname+'/controller', 0777);
+         console.log('create ./controller' + controllerdir);
+
+        
         //获取表中字段
-        for (let table of tables[0]) {
-            let cloumns = await connection.query(`show columns from ${table.Name};`)
+        for (let table of tableanswers.tables) {
+            let cloumns = await connection.query(`show columns from ${table};`)
             //创建po
-            createPo('./entity/po/', bundleName, prefix, cloumns[0], table.Name)
+            createPo(__dirname+'/entity/po/', answers.bundleName, answers.prefix, cloumns[0], table)
             //创建provider
-            createProvider('./mapper/provider/', bundleName, prefix, cloumns[0], table.Name)
+            createProvider(__dirname+'/mapper/provider/', answers.bundleName, answers.prefix, cloumns[0], table)
             //创建mapper
-            createMapper('./mapper/', bundleName, prefix, cloumns[0], table.Name)
+            createMapper(__dirname+'/mapper/', answers.bundleName, answers.prefix, cloumns[0], table)
             //创建service
-            createService('./service/', bundleName, prefix, cloumns[0], table.Name)
+            createService(__dirname+'/service/', answers.bundleName, answers.prefix, cloumns[0], table)
             //创建serviceImpl
-            createServiceImpl('./service/impl/', bundleName, prefix, cloumns[0], table.Name)
+            createServiceImpl(__dirname+'/service/impl/', answers.bundleName, answers.prefix, cloumns[0], table)
             //创建controller
-            createController('./controller/', bundleName, prefix, cloumns[0], table.Name)
+            createController(__dirname+'/controller/', answers.bundleName, answers.prefix, cloumns[0], table)
         }
 
 
