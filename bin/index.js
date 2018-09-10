@@ -4,12 +4,14 @@ const mysql = require("mysql2/promise")
 const mkdirsSync=require('../lib/utils/createDir')
 const createPo = require('./createPo')
 const createProvider = require('./createProvider')
+const createMapper = require('./createMapper')
 //创建po文件夹
 var podir = mkdirsSync('./entity/po', 0777);
 console.log(podir);
 //mapper文件夹
 var mapperdir = mkdirsSync('./mapper/provider', 0777);
 console.log(mapperdir);
+console.log(...[1, 2, 3])
 
 
 program
@@ -40,11 +42,14 @@ program.command('list')
         let data = await connection.query('show table status;')
           //获取表中字段
          let cloumns = await connection.query(`show columns from ${data[0][0].Name};`)
-         //创建provider
-        createProvider('./mapper/provider/','com.juluancj.jlcj','jl',cloumns[0],data[0][0].Name)
+        
          //创建po
         createPo('./entity/po/','com.juluancj.jlcj','jl',cloumns[0],data[0][0].Name)
-        
+         //创建provider
+         createProvider('./mapper/provider/','com.juluancj.jlcj','jl',cloumns[0],data[0][0].Name)
+         //创建mapper
+          //创建provider
+        createMapper('./mapper/','com.juluancj.jlcj','jl',cloumns[0],data[0][0].Name)
        // console.log(data2[0])
     })
 

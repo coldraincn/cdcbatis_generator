@@ -17,7 +17,8 @@ function createProvider(pathName,bundleName, prefix, cloumns, tablename){
      let setBody=''
      //去除id
     
-     let newCloumns=linehump.curtail(cloumns)
+     let newCloumns=[...cloumns]
+     newCloumns.shift()
      for(let cloumn of newCloumns){
         let field = linehump.toHump(cloumn.Field);
         setBody+=providerTemp.getSetbody(cloumn.Field,poName,field)
