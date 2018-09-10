@@ -1,6 +1,6 @@
 'use strict'
 const fs = require('fs');
-const linehump = require('../lib/utils/linehump');
+const linehump = require('../lib/utils/stringUtil');
 const providerTemp = require('../lib/template/providerTemp')
 /**
  * 

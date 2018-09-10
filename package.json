@@ -1,6 +1,6 @@
 {
   "name": "cdcbatis-generator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "mybatis generator for annotation",
   "main": "index.js",
   "bin": {

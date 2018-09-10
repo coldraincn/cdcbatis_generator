@@ -1,7 +1,7 @@
 'use strict'
 const fs = require('fs');
 const mapperTemp = require('../lib/template/mapperTemp')
-const linehump = require('../lib/utils/linehump');
+const linehump = require('../lib/utils/stringUtil');
 /**
  * 
  * @param {路径} pathName 
